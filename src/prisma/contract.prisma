@@ -1,5 +1,6 @@
 // use prisma-8
 
+// удалить?
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -10,12 +11,44 @@ model User {
   updatedAt temporal.updatedAtString()
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+enum AdminRole {
+  MANAGER
+  ROOT
+}
+
+model Admin {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  role AdminRole
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
+}
+
+model ShopOwner {
+  id Int @id @default(autoicrement())
+  name String
+  phoneNumber String
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model Shop {
+  id Int @id @default(autoincrement())
+  name String
+  inn String @db.VarChar(10)
+  kpp String @db.VarChar(9)
+  ogrn String @db.VarChar(13)
+  registeredOfficeAddress String
+  actualAddress String
+  login string
+  password string
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model Terminal {
+  id Int @id @default(autoincrement())
+
 }
