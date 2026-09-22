@@ -1,12 +1,10 @@
 // use prisma-8
 
-// удалить?
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   username  String?
   name      String?
-  posts     Post[]
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
@@ -14,6 +12,17 @@ model User {
 enum AdminRole {
   MANAGER
   ROOT
+}
+
+enum TerminalStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum RequestStatus {
+  UNDER_CONSIDERATION
+  APPROVED
+  REJECTED
 }
 
 model Admin {
@@ -42,13 +51,24 @@ model Shop {
   ogrn String @db.VarChar(13)
   registeredOfficeAddress String
   actualAddress String
-  login string
-  password string
+  login String
+  password String
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
 
 model Terminal {
   id Int @id @default(autoincrement())
+  macAddress String  @unique @db.VarChar(17)
+  status TerminalStatus
+  link String
+}
 
+model Request {
+  id Int @id @default(autoincrement())
+  createRequest TimestamptzString @default(now())
+  macAddress String  @unique @db.VarChar(17)
+  shop Shop
+  status RequestStatus
+  comment String
 }
